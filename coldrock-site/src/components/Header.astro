@@ -1,0 +1,94 @@
+---
+/**
+ * Header — sticky top navigation.
+ *
+ * TODO[BRAND]: Replace the text wordmark with the Cold Rock logo
+ * asset (SVG preferred) once available.
+ */
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
+  { href: "/work", label: "Work" },
+  { href: "/contact", label: "Contact" },
+];
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string): boolean =>
+  href === "/" ? pathname === "/" : pathname.startsWith(href);
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-ink-200 bg-white/80 backdrop-blur"
+>
+  <div
+    class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
+  >
+    {/* TODO[BRAND]: swap text wordmark for logo image */}
+    <a
+      href="/"
+      class="text-base font-medium uppercase tracking-[0.3em] text-ink-900"
+    >
+      COLDROCK
+    </a>
+
+    {/* Desktop navigation */}
+    <nav class="hidden gap-8 md:flex" aria-label="Primary">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "text-sm transition-colors hover:text-ink-900",
+              isActive(item.href)
+                ? "font-medium text-ink-900"
+                : "text-ink-500",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    {/* Mobile navigation — native <details> disclosure, no JS */}
+    <details class="relative md:hidden">
+      <summary
+        class="flex cursor-pointer list-none items-center rounded p-1 text-ink-700"
+      >
+        <span class="sr-only">Toggle menu</span>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </summary>
+      <div
+        class="absolute right-0 mt-2 w-44 rounded-lg border border-ink-200 bg-white p-2 shadow-lg"
+      >
+        {
+          navItems.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                "block rounded px-3 py-2 text-sm hover:bg-ink-50",
+                isActive(item.href) ? "text-ink-900" : "text-ink-600",
+              ]}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+    </details>
+  </div>
+</header>

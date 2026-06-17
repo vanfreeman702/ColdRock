@@ -1,0 +1,22 @@
+---
+/**
+ * ServiceCard — single advisory offering tile.
+ *
+ * TODO[BRAND]: replace the placeholder glyph `icon` with real
+ * brand iconography once the visual system is defined.
+ */
+interface Props {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+const { title, description, icon = "◆" } = Astro.props;
+---
+
+<div class="group bg-white p-8 transition-colors hover:bg-ink-50">
+  {/* TODO[BRAND]: swap glyph for branded icon/illustration */}
+  <div class="mb-5 text-xl text-ink-400" aria-hidden="true">{icon}</div>
+  <h3 class="mb-3 text-xl text-ink-900">{title}</h3>
+  <p class="text-sm leading-relaxed text-ink-600">{description}</p>
+</div>

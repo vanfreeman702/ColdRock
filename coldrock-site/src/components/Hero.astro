@@ -1,0 +1,271 @@
+---
+/**
+ * Hero — cinematic landing reveal over a photographic backdrop.
+ *
+ * Uses a real photograph (snow-capped peak above a sea of clouds) as the
+ * background, desaturated to grayscale to stay on-brand (monochrome). On
+ * load the photo eases in with a slow zoom while two cloud banks part to
+ * reveal the COLDROCK wordmark. Honors prefers-reduced-motion.
+ *
+ * IMAGE: place the photo at `public/hero-mountain.jpg` (or pass a different
+ * `image` prop). Until that file exists the hero falls back to a soft
+ * grayscale sky gradient — it won't look broken.
+ *
+ * TODO[BRAND]: confirm you have a license to use this photograph in
+ * production. To keep the photo in natural COLOR instead of grayscale,
+ * remove `grayscale(100%)` from the `.hero__photo` filter below.
+ */
+import CTAButton from "./CTAButton.astro";
+
+interface Props {
+  tagline?: string;
+  image?: string;
+}
+
+const {
+  tagline = "Clarity at the intersection of business and government.",
+  image = "/hero-mountain.jpg",
+} = Astro.props;
+---
+
+<section class="hero" aria-label="Cold Rock">
+  {/* Photographic backdrop (grayscale, slow zoom) */}
+  <div
+    class="hero__photo"
+    style={`background-image: url('${image}')`}
+    aria-hidden="true"
+  >
+  </div>
+
+  {/* Scrim — lifts the wordmark and blends the base into the page */}
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  {/* Wordmark + tagline + CTAs */}
+  <div class="hero__content">
+    <h1 class="hero__wordmark">COLDROCK</h1>
+    <p class="hero__tagline">{tagline}</p>
+    <div class="hero__cta">
+      <CTAButton href="/contact">Start a conversation</CTAButton>
+      <CTAButton href="/services" variant="secondary">
+        Explore our services
+      </CTAButton>
+    </div>
+  </div>
+
+  {/* Cloud banks — part to the sides on load */}
+  <div class="hero__clouds" aria-hidden="true">
+    <div class="cloud cloud--left"></div>
+    <div class="cloud cloud--right"></div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+    overflow: hidden;
+    /* Fallback if the photo is missing */
+    background: linear-gradient(180deg, #eef1f4 0%, #f6f7f8 55%, #f3f3f3 100%);
+  }
+
+  /* --- Photographic backdrop --- */
+  .hero__photo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center 38%;
+    background-repeat: no-repeat;
+    /* Grayscale keeps the photo on-brand. Remove grayscale(100%) for color. */
+    filter: grayscale(100%) contrast(1.05) brightness(1.02);
+    opacity: 0;
+    transform: scale(1.08);
+    animation:
+      cr-photo 1500ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both,
+      cr-zoom 9000ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+  }
+
+  /* --- Scrim --- */
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.55) 0%,
+        rgba(255, 255, 255, 0) 28%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 68%,
+        rgba(255, 255, 255, 0.9) 100%
+      );
+  }
+
+  /* --- Content --- */
+  .hero__content {
+    position: relative;
+    z-index: 6;
+    text-align: center;
+    padding: 0 1.5rem;
+    margin-bottom: 14vh;
+  }
+
+  .hero__wordmark {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-indent: 0.22em;
+    color: var(--color-ink-900);
+    font-size: clamp(2.75rem, 11vw, 8rem);
+    line-height: 1;
+    margin: 0;
+    /* soft white halo so dark type stays legible over the clouds */
+    text-shadow: 0 2px 36px rgba(255, 255, 255, 0.7);
+    animation: cr-settle 1800ms cubic-bezier(0.22, 1, 0.36, 1) 1100ms both;
+  }
+
+  .hero__tagline {
+    margin: 1.5rem auto 0;
+    max-width: 34rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-ink-600);
+    text-shadow: 0 1px 20px rgba(255, 255, 255, 0.8);
+    animation: cr-settle 1600ms cubic-bezier(0.22, 1, 0.36, 1) 1600ms both;
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+    animation: cr-settle 1400ms cubic-bezier(0.22, 1, 0.36, 1) 2000ms both;
+  }
+
+  /* --- Parting clouds (the reveal overlay) --- */
+  .hero__clouds {
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+    pointer-events: none;
+  }
+
+  .cloud {
+    position: absolute;
+    top: -12%;
+    height: 124%;
+    width: 74%;
+    opacity: 0;
+    filter: blur(14px);
+  }
+
+  .cloud--left {
+    left: -10%;
+    background:
+      radial-gradient(closest-side, #fff 72%, transparent) 60% 28% / 60% 50%
+        no-repeat,
+      radial-gradient(closest-side, #fff 72%, transparent) 32% 58% / 72% 70%
+        no-repeat,
+      radial-gradient(closest-side, #fff 72%, transparent) 70% 76% / 64% 60%
+        no-repeat,
+      radial-gradient(closest-side, #fafafa 72%, transparent) 10% 30% / 56% 56%
+        no-repeat;
+    transform: translateX(-62%);
+    animation: cr-part-left 2900ms cubic-bezier(0.65, 0, 0.3, 1) 400ms both;
+  }
+
+  .cloud--right {
+    right: -10%;
+    background:
+      radial-gradient(closest-side, #fff 72%, transparent) 40% 28% / 60% 50%
+        no-repeat,
+      radial-gradient(closest-side, #fff 72%, transparent) 68% 58% / 72% 70%
+        no-repeat,
+      radial-gradient(closest-side, #fff 72%, transparent) 30% 76% / 64% 60%
+        no-repeat,
+      radial-gradient(closest-side, #fafafa 72%, transparent) 90% 30% / 56% 56%
+        no-repeat;
+    transform: translateX(62%);
+    animation: cr-part-right 2900ms cubic-bezier(0.65, 0, 0.3, 1) 400ms both;
+  }
+
+  @keyframes cr-photo {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes cr-zoom {
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes cr-part-left {
+    0% {
+      transform: translateX(26%);
+      opacity: 1;
+    }
+    55% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-62%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes cr-part-right {
+    0% {
+      transform: translateX(-26%);
+      opacity: 1;
+    }
+    55% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(62%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes cr-settle {
+    0% {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* --- Reduced motion: resolve instantly --- */
+  @media (prefers-reduced-motion: reduce) {
+    .hero__photo,
+    .hero__wordmark,
+    .hero__tagline,
+    .hero__cta,
+    .cloud {
+      animation: none;
+    }
+    .hero__photo {
+      opacity: 1;
+      transform: none;
+    }
+    .cloud {
+      opacity: 0;
+    }
+  }
+</style>

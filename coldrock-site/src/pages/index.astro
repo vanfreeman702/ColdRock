@@ -1,0 +1,134 @@
+---
+/**
+ * Home — cinematic hero, the first principle, services overview,
+ * about teaser (Managing Partner framing), closing CTA.
+ *
+ * TODO[BRAND]: copy below reflects the firm's thesis but is open to
+ * refinement. Search [PLACEHOLDER] / TODO[BRAND] for open items.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import Hero from "../components/Hero.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import CTAButton from "../components/CTAButton.astro";
+
+// Core advisory offerings. TODO[BRAND]: refine names/scope as the
+// service catalog firms up (full detail lives on /services).
+const services = [
+  {
+    title: "Government Navigation & Strategy",
+    description:
+      "Map where your growth intersects public-sector authority, and engage federal, state, and local government with a clear plan and steady footing.",
+    icon: "◆",
+  },
+  {
+    title: "Funding & Resource Access",
+    description:
+      "Identify and pursue the grants, incentives, and programs available to you — across economic development, workforce, and beyond.",
+    icon: "◇",
+  },
+  {
+    title: "Systems for Growth & Scale",
+    description:
+      "Build the operating systems, partnerships, and infrastructure that let small and mid-size organizations grow — and sustain it.",
+    icon: "▲",
+  },
+];
+---
+
+<BaseLayout
+  title="Cold Rock — Clarity at the intersection of business and government"
+  description="Cold Rock is a boutique strategic advisory firm helping small and mid-size businesses, nonprofits, and startups navigate government and turn complexity into opportunity."
+>
+  <Hero />
+
+  {/* The first principle — the firm's thesis */}
+  <Section width="narrow" class="border-t border-ink-100 text-center">
+    <p class="text-xs font-medium uppercase tracking-[0.3em] text-ink-400">
+      Our first principle
+    </p>
+    <h2 class="mt-6 text-3xl leading-snug text-ink-900 sm:text-4xl">
+      Every organization, as it grows, eventually intersects
+      government.
+    </h2>
+    <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-600">
+      Cold Rock exists to help you navigate that intersection — turning
+      public-sector complexity into resources, opportunity, and momentum.
+      We understand the problem deeply, then deliver solutions that create
+      real impact and lasting improvement.
+    </p>
+  </Section>
+
+  {/* Services overview */}
+  <Section class="border-t border-ink-100">
+    <div class="mb-12 max-w-2xl">
+      <p class="text-xs font-medium uppercase tracking-[0.3em] text-ink-400">
+        How we help
+      </p>
+      <h2 class="mt-4 text-3xl tracking-tight text-ink-900 sm:text-4xl">
+        Boutique advisory, built around your problem
+      </h2>
+      <p class="mt-4 text-ink-600">
+        Practical advisement and the systems to back it — for businesses,
+        nonprofits, and startups working at the edge of the public sector.
+      </p>
+    </div>
+    <div class="grid gap-px overflow-hidden border border-ink-200 bg-ink-200 md:grid-cols-3">
+      {
+        services.map((service) => (
+          <ServiceCard
+            title={service.title}
+            description={service.description}
+            icon={service.icon}
+          />
+        ))
+      }
+    </div>
+    <div class="mt-10">
+      <CTAButton href="/services" variant="secondary">
+        See all services
+      </CTAButton>
+    </div>
+  </Section>
+
+  {/* About teaser — Managing Partner framing */}
+  <Section width="narrow" class="border-t border-ink-100 text-center">
+    <p class="text-xs font-medium uppercase tracking-[0.3em] text-ink-400">
+      The firm
+    </p>
+    <h2 class="mt-6 text-3xl tracking-tight text-ink-900 sm:text-4xl">
+      Solutions — clear, cold, and concise as a rock
+    </h2>
+    <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-600">
+      Cold Rock is a boutique strategic advisory firm and a curated network
+      of partners and practitioners, led by a managing partner who directs
+      every engagement personally. Authoritative advice, from experience —
+      across economic development, workforce development, startups, and
+      nonprofits.
+    </p>
+    <div class="mt-8">
+      <CTAButton href="/about" variant="secondary">About the firm</CTAButton>
+    </div>
+  </Section>
+
+  {/* Closing CTA */}
+  <Section class="border-t border-ink-100">
+    <div class="bg-ink-900 px-8 py-16 text-center md:px-16">
+      <h2 class="text-3xl tracking-tight text-white sm:text-4xl">
+        Let's talk through what's ahead
+      </h2>
+      <p class="mx-auto mt-4 max-w-xl text-ink-300">
+        Tell us where you're headed and where it's getting hard. We'll bring
+        the clarity — and the plan — to move forward.
+      </p>
+      <div class="mt-9 flex justify-center">
+        <CTAButton
+          href="/contact"
+          class="bg-white text-ink-900 hover:bg-ink-200"
+        >
+          Get in touch
+        </CTAButton>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

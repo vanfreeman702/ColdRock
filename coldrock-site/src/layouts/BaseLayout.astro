@@ -1,0 +1,56 @@
+---
+/**
+ * BaseLayout — shared <head>, Header, and Footer for every page.
+ *
+ * TODO[BRAND]: Update favicon, theme-color, and add Open Graph /
+ * Twitter share image once final brand assets exist.
+ */
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Cold Rock — Strategic Advisory",
+  description = "[PLACEHOLDER] Cold Rock is a strategic advisory firm helping leaders navigate their most consequential decisions.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    {/* Fonts — Cormorant Garamond (display) + Inter (body).
+        TODO[BRAND]: self-host via @fontsource for production
+        performance and to drop the third-party request. */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    {/* TODO[BRAND]: add OG/Twitter meta tags + social share image */}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body class="flex min-h-screen flex-col bg-white text-ink-800 antialiased">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,172 @@
+---
+/**
+ * Contact — working contact form.
+ *
+ * Submits to the /api/contact serverless endpoint, which emails the
+ * inquiry to CONTACT_TO_EMAIL (van@coldrock.co) via Resend and records
+ * it in a Notion database for tracking. See README for env setup.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+
+// Public-facing address (the form delivers to van@coldrock.co privately
+// via the CONTACT_TO_EMAIL env var). TODO[BRAND]: change if you'd rather
+// show van@ publicly.
+const contactEmail = "hello@coldrock.co";
+
+const fieldClass =
+  "border border-ink-300 bg-white px-4 py-3 text-ink-900 placeholder:text-ink-400 focus:border-ink-900 focus:outline-none";
+const labelClass =
+  "text-xs font-medium uppercase tracking-[0.18em] text-ink-700";
+---
+
+<BaseLayout
+  title="Contact — Cold Rock"
+  description="Get in touch with Cold Rock to discuss an engagement at the intersection of business and government."
+>
+  <Section width="narrow">
+    <p class="text-xs font-medium uppercase tracking-[0.3em] text-ink-400">
+      Contact
+    </p>
+    <h1
+      class="mt-6 text-4xl leading-tight tracking-tight text-ink-900 sm:text-5xl"
+    >
+      Let's start a conversation
+    </h1>
+    <p class="mt-7 text-lg leading-relaxed text-ink-600">
+      Tell us where you're headed and where it's getting hard — a few lines
+      on your organization and the challenge is plenty to begin. We'll follow
+      up to find the right way to help.
+    </p>
+
+    <div class="mt-10 border-l-2 border-ink-900 pl-6">
+      <p class="text-xs font-medium uppercase tracking-[0.2em] text-ink-400">
+        Prefer email?
+      </p>
+      <a
+        href={`mailto:${contactEmail}`}
+        class="mt-2 inline-block text-lg text-ink-900 underline underline-offset-4 transition-colors hover:text-ink-500"
+      >
+        {contactEmail}
+      </a>
+    </div>
+
+    <form id="contact-form" class="mt-12 grid gap-6" method="POST" action="/api/contact">
+      <div class="grid gap-2">
+        <label for="name" class={labelClass}>Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          required
+          autocomplete="name"
+          placeholder="Your name"
+          class={fieldClass}
+        />
+      </div>
+
+      <div class="grid gap-2">
+        <label for="email" class={labelClass}>Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="you@organization.com"
+          class={fieldClass}
+        />
+      </div>
+
+      <div class="grid gap-2">
+        <label for="message" class={labelClass}>How can we help?</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          required
+          placeholder="A few lines on your organization and the challenge…"
+          class={fieldClass}></textarea>
+      </div>
+
+      {/* Honeypot: hidden from people, tempting to bots. Leave it empty. */}
+      <div class="hidden" aria-hidden="true">
+        <label>
+          Company
+          <input
+            type="text"
+            name="company"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </label>
+      </div>
+
+      <button
+        type="submit"
+        id="contact-submit"
+        class="inline-flex w-fit items-center justify-center bg-ink-900 px-8 py-3.5 text-xs font-medium uppercase tracking-[0.18em] text-white transition-colors hover:bg-ink-700 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Send message
+      </button>
+
+      <p
+        id="contact-status"
+        class="text-sm text-ink-500"
+        role="status"
+        aria-live="polite"
+      >
+      </p>
+    </form>
+  </Section>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("contact-status");
+  const btn = document.getElementById("contact-submit") as HTMLButtonElement | null;
+
+  if (form && status && btn) {
+    const defaultLabel = btn.textContent;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      status.textContent = "";
+      status.className = "text-sm text-ink-500";
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        const out = await res.json().catch(() => ({}));
+
+        if (res.ok && out.ok) {
+          form.reset();
+          status.className = "text-sm font-medium text-ink-900";
+          status.textContent =
+            "Thank you — your message is on its way. We'll be in touch shortly.";
+          btn.textContent = "Sent";
+        } else {
+          status.className = "text-sm text-red-700";
+          status.textContent =
+            out.error ||
+            "Something went wrong. Please email hello@coldrock.co directly.";
+          btn.disabled = false;
+          btn.textContent = defaultLabel;
+        }
+      } catch {
+        status.className = "text-sm text-red-700";
+        status.textContent =
+          "Network error. Please email hello@coldrock.co directly.";
+        btn.disabled = false;
+        btn.textContent = defaultLabel;
+      }
+    });
+  }
+</script>

@@ -1,0 +1,67 @@
+---
+/**
+ * Footer — site footer with secondary nav, contact, and copyright.
+ *
+ * TODO[BRAND]: Add real social links and any legal pages
+ * (Privacy, Terms) once they exist.
+ */
+const year = new Date().getFullYear();
+
+const footerNav = [
+  { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
+  { href: "/work", label: "Work" },
+  { href: "/contact", label: "Contact" },
+];
+---
+
+<footer class="border-t border-ink-200 bg-ink-50">
+  <div
+    class="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-12 md:flex-row md:items-start md:justify-between"
+  >
+    <div class="max-w-xs">
+      {/* TODO[BRAND]: swap text wordmark for logo image */}
+      <p class="text-sm font-medium uppercase tracking-[0.3em] text-ink-900">
+        COLDROCK
+      </p>
+      <p class="mt-3 text-sm leading-relaxed text-ink-500">
+        Clarity at the intersection of business and government.
+        Boutique strategic advisory for small and mid-size
+        businesses, nonprofits, and startups.
+      </p>
+    </div>
+
+    <nav class="flex flex-col gap-2" aria-label="Footer">
+      {
+        footerNav.map((item) => (
+          <a
+            href={item.href}
+            class="text-sm text-ink-600 transition-colors hover:text-ink-900"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="text-sm text-ink-600">
+      <p class="font-medium text-ink-800">Get in touch</p>
+      {/* TODO[BRAND]: confirm final contact email address */}
+      <a
+        href="mailto:hello@coldrock.co"
+        class="mt-1 block transition-colors hover:text-ink-900"
+      >
+        hello@coldrock.co
+      </a>
+      {/* TODO[BRAND]: add social links (LinkedIn, etc.) when ready */}
+    </div>
+  </div>
+
+  <div class="border-t border-ink-200">
+    <div
+      class="mx-auto max-w-6xl px-6 py-6 text-xs text-ink-400"
+    >
+      &copy; {year} Cold Rock. [PLACEHOLDER] All rights reserved.
+    </div>
+  </div>
+</footer>

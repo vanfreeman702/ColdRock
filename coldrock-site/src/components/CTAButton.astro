@@ -1,0 +1,31 @@
+---
+/**
+ * CTAButton — primary/secondary call-to-action link.
+ * Renders an <a>; pass label text as the default slot.
+ *
+ * TODO[BRAND]: button colors derive from the accent tokens in
+ * global.css — no need to edit this file to restyle.
+ */
+interface Props {
+  href: string;
+  variant?: "primary" | "secondary";
+  class?: string;
+}
+
+const { href, variant = "primary", class: className = "" } = Astro.props;
+
+// Sharp, architectural edges (no radius) + small uppercase tracked
+// label for an editorial, high-end feel.
+const base =
+  "inline-flex items-center justify-center px-8 py-3.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors duration-200";
+
+const variants = {
+  primary: "bg-ink-900 text-white hover:bg-ink-700",
+  secondary:
+    "border border-ink-300 text-ink-800 hover:border-ink-900 hover:text-ink-900",
+};
+---
+
+<a href={href} class:list={[base, variants[variant], className]}>
+  <slot />
+</a>

@@ -1,0 +1,25 @@
+---
+/**
+ * Section — consistent vertical rhythm + centered max-width wrapper.
+ * Use this to wrap every page section so spacing stays uniform.
+ */
+interface Props {
+  id?: string;
+  class?: string;
+  width?: "narrow" | "default" | "wide";
+}
+
+const { id, class: className = "", width = "default" } = Astro.props;
+
+const maxWidth = {
+  narrow: "max-w-3xl",
+  default: "max-w-6xl",
+  wide: "max-w-7xl",
+}[width];
+---
+
+<section id={id} class:list={["px-6 py-16 md:py-24", className]}>
+  <div class:list={["mx-auto", maxWidth]}>
+    <slot />
+  </div>
+</section>

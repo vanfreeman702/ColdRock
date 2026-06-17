@@ -1,0 +1,22 @@
+{
+  "name": "coldrock-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Official website for Cold Rock — strategic advisory firm (coldrock.co)",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.6.0",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "@astrojs/vercel": "^8.0.0",
+    "@notionhq/client": "^2.2.15",
+    "resend": "^4.0.0"
+  }
+}

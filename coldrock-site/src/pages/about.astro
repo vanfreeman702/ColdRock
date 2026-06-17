@@ -1,0 +1,112 @@
+---
+/**
+ * About — the first principle, the firm's approach, leadership
+ * (Managing Partner framing), and areas of depth.
+ *
+ * TODO[BRAND]: add the managing partner's name + (optional) bio and
+ * confirm credentials when ready. Search [PLACEHOLDER].
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import CTAButton from "../components/CTAButton.astro";
+
+// Areas of depth / domains the firm advises across.
+const domains = [
+  "Economic development",
+  "Workforce development",
+  "Startups & founders",
+  "Nonprofits & mission-driven orgs",
+  "Small & mid-size business",
+  "Federal, state & local government",
+];
+---
+
+<BaseLayout
+  title="About — Cold Rock"
+  description="Cold Rock is a boutique strategic advisory firm built on a single principle: every organization eventually intersects government. We help you navigate it."
+>
+  {/* Thesis */}
+  <Section width="narrow">
+    <p class="text-xs font-medium uppercase tracking-[0.3em] text-ink-400">
+      About
+    </p>
+    <h1
+      class="mt-6 text-4xl leading-tight tracking-tight text-ink-900 sm:text-5xl"
+    >
+      Built where business meets government
+    </h1>
+    <p class="mt-7 text-lg leading-relaxed text-ink-600">
+      Cold Rock begins from a first principle: every organization, as it
+      grows, eventually intersects government. Permits and procurement,
+      funding and incentives, regulation and policy — at some point, the
+      public sector becomes part of the path forward.
+    </p>
+    <p class="mt-4 text-lg leading-relaxed text-ink-600">
+      Most organizations meet that moment unprepared. Cold Rock exists to
+      change that — a boutique strategic advisory firm that helps small and
+      mid-size businesses, nonprofits, and startups navigate the federal,
+      state, and local landscape, leverage the resources available to them,
+      and maximize the opportunities of a given time and place.
+    </p>
+  </Section>
+
+  {/* Approach */}
+  <Section width="narrow" class="border-t border-ink-100">
+    <h2 class="text-3xl tracking-tight text-ink-900">How we work</h2>
+    <p class="mt-5 text-lg leading-relaxed text-ink-600">
+      We are solutions-oriented and deliberately boutique. We understand the
+      problem deeply before we move, then provide practical advisement —
+      whether that's strategy, work product, issue development, or building
+      the system that solves it for good. We aim to provide value at every
+      opportunity available to the client, and to leave behind systems for
+      growth and scale.
+    </p>
+    <p class="mt-4 text-lg leading-relaxed text-ink-600">
+      Behind the firm is a curated network of partners and practitioners,
+      matched to the problem at hand — so the right expertise is brought to
+      bear without the overhead of a large consultancy.
+    </p>
+  </Section>
+
+  {/* Leadership — Managing Partner framing (no bio/photo yet) */}
+  <Section width="narrow" class="border-t border-ink-100">
+    <h2 class="text-3xl tracking-tight text-ink-900">Leadership</h2>
+    <div class="mt-6 border-l-2 border-ink-900 pl-6">
+      <p class="text-sm font-medium uppercase tracking-[0.2em] text-ink-400">
+        Managing Partner
+      </p>
+      <p class="mt-4 text-lg leading-relaxed text-ink-600">
+        Cold Rock is led by its Managing Partner, who directs every
+        engagement personally — orchestrating the flow of information,
+        projects, and people, and standing accountable for the outcome.
+        Clients work with a principal, not a layer of intermediaries:
+        authoritative advice, drawn from experience, applied directly to the
+        problem in front of them.
+      </p>
+      {/* TODO[BRAND]: add Managing Partner name and optional short bio */}
+      <p class="mt-4 text-sm text-ink-400">
+        [PLACEHOLDER] Managing Partner name &amp; short bio to come.
+      </p>
+    </div>
+  </Section>
+
+  {/* Areas of depth */}
+  <Section width="narrow" class="border-t border-ink-100">
+    <h2 class="text-3xl tracking-tight text-ink-900">Areas of depth</h2>
+    <ul class="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+      {
+        domains.map((item) => (
+          <li class="flex items-start gap-3 border-b border-ink-100 pb-3 text-ink-700">
+            <span class="mt-1.5 text-ink-400" aria-hidden="true">
+              —
+            </span>
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-12">
+      <CTAButton href="/contact">Work with us</CTAButton>
+    </div>
+  </Section>
+</BaseLayout>

@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/* ============================================================
+   COLD ROCK — DESIGN TOKENS
+   ------------------------------------------------------------
+   Every brand decision (color, type, radius) is centralized
+   here. Tailwind v4 reads this @theme block and generates the
+   matching utility classes (e.g. --color-ink-900 -> bg-ink-900,
+   --font-serif -> font-serif).
+
+   Brand direction: high-end, editorial, pristine. True black /
+   white / grayscale. Elegant serif display + clean sans body.
+   Sharp, architectural edges — "clear, cold, and concise as a
+   rock."
+
+   TODO[BRAND]: This @theme block is the ONE place to edit when
+   branding is finalized. Swap palette + fonts and the whole
+   site restyles.
+   ============================================================ */
+@theme {
+  /* --- Neutral grayscale palette (true neutral, no blue tint) ---
+     Pristine black/white/gray. TODO[BRAND]: adjust if a brand
+     accent is ever introduced. */
+  --color-ink-50: #fafafa;
+  --color-ink-100: #f5f5f5;
+  --color-ink-200: #e5e5e5;
+  --color-ink-300: #d4d4d4;
+  --color-ink-400: #a3a3a3;
+  --color-ink-500: #737373;
+  --color-ink-600: #525252;
+  --color-ink-700: #404040;
+  --color-ink-800: #262626;
+  --color-ink-900: #171717;
+  --color-ink-950: #0a0a0a;
+
+  /* Accent currently maps to near-black. Swap for a brand accent
+     later (used by primary CTAs). */
+  --color-accent: #171717;
+  --color-accent-hover: #404040;
+
+  /* --- Typography --------------------------------------------
+     Display: elegant high-contrast serif (French editorial feel,
+     nods to the Alpine reveal). Body/UI: clean neutral sans.
+     Loaded via <link> in BaseLayout.astro.
+     TODO[BRAND]: self-host these fonts for production performance
+     (e.g. via @fontsource) and confirm final typefaces. */
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-serif:
+    "Cormorant Garamond", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+/* --- Base element defaults ------------------------------------ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings default to the elegant serif site-wide, so individual
+   components don't each have to opt in. */
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
